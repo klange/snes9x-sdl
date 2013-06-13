@@ -4721,7 +4721,7 @@ fi
 
 if test "xyes" = "xyes"; then
   	S9XFLGS="$S9XFLGS -DNOSOUND `pkg-config --cflags sdl`"
-	S9XLIBS="$S9XLIBS `pkg-config --libs sdl` -ltoaru -lpng15 -lz"
+	S9XLIBS="$S9XLIBS `pkg-config --libs sdl` -ltoaru -lpng15 -lz -lfreetype"
 else
 	as_fn_error $? "SDL is required." "$LINENO" 5
 fi

@@ -46,7 +46,7 @@ configure: configure.ac
 	exit 1
 
 snes9x-sdl: $(OBJECTS)
-	$(CCC) $(INCLUDES) -o $@ $(OBJECTS) -lm -L/home/klange/Projects/osdev-strawberry/toolchain/local/i686-pc-toaru/lib -lSDL -ltoaru -lpng15 -lz
+	$(CCC) $(INCLUDES) -o $@ $(OBJECTS) -lm -L/home/klange/Projects/osdev-strawberry/toolchain/local/i686-pc-toaru/lib -lSDL -ltoaru -lpng15 -lz -lfreetype
 
 ../jma/s9x-jma.o: ../jma/s9x-jma.cpp
 	$(CCC) $(INCLUDES) -c $(CCFLAGS) -fexceptions $*.cpp -o $@
