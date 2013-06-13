@@ -23,22 +23,22 @@ AC_DEFUN([AC_S9X_COMPILER_FLAG],
 		OLD_CXXFLAGS="[$]CXXFLAGS"
 		CXXFLAGS="[$]OLD_CXXFLAGS $1"
 
-		AC_TRY_RUN(
-		[
-			int	foo;
+		#AC_TRY_RUN(
+		#[
+		#	int	foo;
 
-			int	main (int argc, char **argv)
-			{
-				/* The following code triggs gcc:s generation of aline opcodes,
-				   which some versions of as does not support. */
+		#	int	main (int argc, char **argv)
+		#	{
+		#		/* The following code triggs gcc:s generation of aline opcodes,
+		#		   which some versions of as does not support. */
 
-				if (argc > 0)
-					argc = 0;
+		#		if (argc > 0)
+		#			argc = 0;
 
-				return (argc);
-			}
-		],
-		[snes9x_cv_option_$2="yes"], [snes9x_cv_option_$2="no"])
+		#		return (argc);
+		#	}
+		#],
+		#[snes9x_cv_option_$2="yes"], [snes9x_cv_option_$2="no"])
 	])
 
 	CXXFLAGS="[$]OLD_CXXFLAGS"
@@ -239,9 +239,9 @@ AC_CACHE_VAL([snes9x_cv_sdl],
 		[snes9x_cv_sdl="no"])
 ])
 
-if test "x$snes9x_cv_sdl" = "xyes"; then
-  	S9XFLGS="$S9XFLGS `sdl-config --cflags`"
-	S9XLIBS="$S9XLIBS `sdl-config --libs`"
+if test "xyes" = "xyes"; then
+  	S9XFLGS="$S9XFLGS `pkg-config --cflags sdl`"
+	S9XLIBS="$S9XLIBS `pkg-config --libs sdl`"
 else
 	AC_MSG_ERROR([SDL is required.])
 fi
@@ -276,72 +276,75 @@ AC_CHECK_HEADERS([unistd.h sys/socket.h])
 # Check whether the size of pointer is int.
 
 if test "x$snes9x_have_stdint_h" = "x"; then
-	AC_MSG_CHECKING([whether the size of pointer is int])
+	#AC_MSG_CHECKING([whether the size of pointer is int])
 	
-	AC_TRY_RUN(
-	[
-		int main (void)
-		{
-			return (!(sizeof(void *) == sizeof(int)));
-		}
-	],
-	[snes9x_ptr_is_int="yes"], [snes9x_ptr_is_int="no"])
-	
-	if test "x$snes9x_ptr_is_int" = "xyes"; then
-		AC_MSG_RESULT(yes)
-	else
-		AC_MSG_RESULT(no)
-		S9XDEFS="$S9XDEFS -DPTR_NOT_INT"
-	fi
+	echo "lol"
+	#AC_TRY_RUN(
+	#[
+	#	int main (void)
+	#	{
+	#		return (!(sizeof(void *) == sizeof(int)));
+	#	}
+	#],
+	#[snes9x_ptr_is_int="yes"], [snes9x_ptr_is_int="no"])
+	#
+	#if test "x$snes9x_ptr_is_int" = "xyes"; then
+	#	AC_MSG_RESULT(yes)
+	#else
+	#	AC_MSG_RESULT(no)
+	#	S9XDEFS="$S9XDEFS -DPTR_NOT_INT"
+	#fi
 fi
 
 # Check whether right shift is arithmetic or not
 
 AC_DEFUN([AC_S9X_CHECK_SAR],
 [
-	AC_MSG_CHECKING([whether right shift $1 is arithmetic])
+	#AC_MSG_CHECKING([whether right shift $1 is arithmetic])
 
-	OLD_CXXFLAGS="[$]CXXFLAGS"
-	CXXFLAGS="[$]OLD_CXXFLAGS $snes9x_have_stdint_h"
+	#OLD_CXXFLAGS="[$]CXXFLAGS"
+	#CXXFLAGS="[$]OLD_CXXFLAGS $snes9x_have_stdint_h"
 
-	AC_TRY_RUN(
-	[
-		#ifdef HAVE_STDINT_H
-		#include <stdint.h>
-		typedef int8_t			int8;
-		typedef int16_t			int16;
-		typedef int32_t			int32;
-		typedef int64_t			int64;
-		#else 
-		typedef signed char		int8;
-		typedef signed short	int16;
-		typedef signed int		int32;
-		#ifdef __GNUC__
-		__extension__
-		#endif
-		typedef long long		int64;
-		#endif
+	echo "lol"
 
-		int main (void)
-		{
-			$1	i;
+	#AC_TRY_RUN(
+	#[
+	#	#ifdef HAVE_STDINT_H
+	#	#include <stdint.h>
+	#	typedef int8_t			int8;
+	#	typedef int16_t			int16;
+	#	typedef int32_t			int32;
+	#	typedef int64_t			int64;
+	#	#else 
+	#	typedef signed char		int8;
+	#	typedef signed short	int16;
+	#	typedef signed int		int32;
+	#	#ifdef __GNUC__
+	#	__extension__
+	#	#endif
+	#	typedef long long		int64;
+	#	#endif
 
-			i = -1;
-			i >>= 1;
+	#	int main (void)
+	#	{
+	#		$1	i;
 
-			return (i < 0 ? 0 : 1);
-		}
-	],
-	[snes9x_sar_$1="yes"], [snes9x_sar_$1="no"])
+	#		i = -1;
+	#		i >>= 1;
 
-	CXXFLAGS="[$]OLD_CXXFLAGS"
+	#		return (i < 0 ? 0 : 1);
+	#	}
+	#],
+	#[snes9x_sar_$1="yes"], [snes9x_sar_$1="no"])
 
-	if test "x$snes9x_sar_$1" = "xno"; then
-		AC_MSG_RESULT([no])
-	else
-		S9XDEFS="$S9XDEFS -DRIGHTSHIFT_$1_IS_SAR"
-		AC_MSG_RESULT([yes])
-	fi
+	#CXXFLAGS="[$]OLD_CXXFLAGS"
+
+	#if test "x$snes9x_sar_$1" = "xno"; then
+	#	AC_MSG_RESULT([no])
+	#else
+	#	S9XDEFS="$S9XDEFS -DRIGHTSHIFT_$1_IS_SAR"
+	#	AC_MSG_RESULT([yes])
+	#fi
 ])
 
 AC_S9X_CHECK_SAR([int8])

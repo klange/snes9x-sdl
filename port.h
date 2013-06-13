@@ -182,7 +182,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <limits.h>
-#include <memory.h>
+//#include <memory.h>
 #include <time.h>
 #include <string.h>
 #ifdef HAVE_STRINGS_H

@@ -550,7 +550,7 @@ static void truncate_movie (void)
 		return;
 
 	int	ignore;
-	ignore = ftruncate(fileno(Movie.File), Movie.ControllerDataOffset + Movie.BytesPerSample * (Movie.MaxSample + 1));
+	//ignore = ftruncate(fileno(Movie.File), Movie.ControllerDataOffset + Movie.BytesPerSample * (Movie.MaxSample + 1));
 }
 
 static int read_movie_header (FILE *fd, SMovie *movie)

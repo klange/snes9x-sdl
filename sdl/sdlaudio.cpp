@@ -86,6 +86,7 @@ void S9xToggleSoundChannel (int c)
 static void
 sdl_audio_callback (void *userdata, Uint8 *stream, int len)
 {
+    return;
     SDL_LockAudio ();
     S9xMixSamples (stream, len >> (Settings.SixteenBitSound ? 1 : 0));
     SDL_UnlockAudio ();
@@ -96,6 +97,7 @@ sdl_audio_callback (void *userdata, Uint8 *stream, int len)
 static void
 samples_available (void *data)
 {
+    return;
     SDL_LockAudio ();
     S9xFinalizeSamples ();
     SDL_UnlockAudio ();

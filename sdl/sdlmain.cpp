@@ -601,11 +601,13 @@ void S9xAutoSaveSRAM (void)
 void S9xSyncSpeed (void)
 {
   // doemaemon: not sure how crucial this is atm.
+#if 0
 	if (Settings.SoundSync)
 	{
 		while (!S9xSyncSound())
 			usleep(0);
 	}
+#endif
 
 	if (Settings.DumpStreams)
 		return;
@@ -694,18 +696,20 @@ void S9xSyncSpeed (void)
 		next1.tv_usec++;
 	}
 
+#define timercmp(a,b,CMP) (1)
+
 	// If we're on AUTO_FRAMERATE, we'll display frames always only if there's excess time.
 	// Otherwise we'll display the defined amount of frames.
-	unsigned	limit = (Settings.SkipFrames == AUTO_FRAMERATE) ? (timercmp(&next1, &now, <) ? 10 : 1) : Settings.SkipFrames;
+	unsigned int limit = (Settings.SkipFrames == AUTO_FRAMERATE) ? (timercmp(&next1, &now, <) ? 10 : 1) : Settings.SkipFrames;
 
-	IPPU.RenderThisFrame = (++IPPU.SkippedFrames >= limit) ? TRUE : FALSE;
+	IPPU.RenderThisFrame = TRUE; //(++IPPU.SkippedFrames >= limit) ? TRUE : FALSE;
 
 	if (IPPU.RenderThisFrame)
 		IPPU.SkippedFrames = 0;
 	else
 	{
 		// If we were behind the schedule, check how much it is.
-		if (timercmp(&next1, &now, <))
+		if (0) //timercmp(&next1, &now, <))
 		{
 			unsigned	lag = (now.tv_sec - next1.tv_sec) * 1000000 + now.tv_usec - next1.tv_usec;
 			if (lag >= 500000)
@@ -719,7 +723,7 @@ void S9xSyncSpeed (void)
 
 	// Delay until we're completed this frame.
 	// Can't use setitimer because the sound code already could be using it. We don't actually need it either.
-	while (timercmp(&next1, &now, >))
+	while (0) //timercmp(&next1, &now, >))
 	{
 		// If we're ahead of time, sleep a while.
 		unsigned	timeleft = (next1.tv_sec - now.tv_sec) * 1000000 + next1.tv_usec - now.tv_usec;
@@ -925,6 +929,8 @@ int main (int argc, char **argv)
 	S9xInitDisplay(argc, argv);
 	S9xSetupDefaultKeymap();
 
+	fprintf(stderr, "default keymap...\n");
+
 #ifdef NETPLAY_SUPPORT
 	if (strlen(Settings.ServerName) == 0)
 	{
@@ -957,6 +963,7 @@ int main (int argc, char **argv)
 	}
 #endif
 
+#if 0
 	if (play_smv_filename)
 	{
 		uint32	flags = CPU.Flags & (DEBUG_MODE_FLAG | TRACE_FLAG);
@@ -980,8 +987,11 @@ int main (int argc, char **argv)
 			exit(1);
 		CPU.Flags |= flags;
 	}
+#endif
 
 	sprintf(String, "\"%s\" %s: %s", Memory.ROMName, TITLE, VERSION);
+
+	fprintf(stderr, "- %s\n", String);
 
 	// domaemon: setting the title on the window bar
 	S9xSetTitle(String);
@@ -1053,12 +1063,13 @@ int main (int argc, char **argv)
 			S9xDoDebug();
 		else
 	#endif
+#if 0
 		if (Settings.Paused)
 		{
 			S9xProcessEvents(FALSE);
 			usleep(100000);
 		}
-
+#endif
 		S9xProcessEvents(FALSE);
 
 	#ifdef DEBUGGER
