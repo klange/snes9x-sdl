@@ -733,6 +733,8 @@ void S9xSyncSpeed (void)
 		// Continue with a while-loop because usleep() could be interrupted by a signal.
 	}
 
+	usleep(10000);
+
 	// Calculate the timestamp of the next frame.
 	next1.tv_usec += Settings.FrameTime;
 	if (next1.tv_usec >= 1000000)

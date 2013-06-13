@@ -73,6 +73,7 @@ uint32        sound_buffer_size;
 
 void S9xToggleSoundChannel (int c)
 {
+    return;
 	static uint8	sound_switch = 255;
 
 	if (c == 8)

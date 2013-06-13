@@ -1,7 +1,7 @@
 #S9XDEBUGGER=1
 #S9XNETPLAY=1
-S9XZIP=1
-S9XJMA=1
+#S9XZIP=1
+#S9XJMA=1
 
 # Fairly good and special-char-safe descriptor of the os being built on.
 OS         = `uname -s -r -m|sed \"s/ /-/g\"|tr \"[A-Z]\" \"[a-z]\"|tr \"/()\" \"___\"`
@@ -30,7 +30,7 @@ CC         = i686-pc-toaru-gcc
 GASM       = i686-pc-toaru-g++
 INCLUDES   = -I. -I.. -I../apu/ -I../unzip/ -I../jma/ -I../filter/
 
-CCFLAGS    = -D_GNU_SOURCE=1 -I/home/klange/osdev/toolchain/local/i686-pc-toaru/include/SDL  -DZLIB -DUNZIP_SUPPORT -DJMA_SUPPORT -DHAVE_MKSTEMP -DHAVE_STRINGS_H -DHAVE_SYS_IOCTL_H -DHAVE_STDINT_H $(DEFS)
+CCFLAGS    = -O3 -fomit-frame-pointer -fno-exceptions -pedantic -Wall -W -Wno-unused-parameter -DNOSOUND -D_GNU_SOURCE=1 -I/home/klange/Projects/osdev-strawberry/toolchain/local/i686-pc-toaru/include/SDL  -DHAVE_MKSTEMP -DHAVE_STRINGS_H -DHAVE_SYS_IOCTL_H -DHAVE_STDINT_H $(DEFS)
 CFLAGS     = $(CCFLAGS)
 
 .SUFFIXES: .o .cpp .c .cc .h .m .i .s .obj
@@ -46,7 +46,7 @@ configure: configure.ac
 	exit 1
 
 snes9x-sdl: $(OBJECTS)
-	$(CCC) $(INCLUDES) -o $@ $(OBJECTS) -lm -lz -L/home/klange/osdev/toolchain/local/i686-pc-toaru/lib -lSDL -ltoaru -lpng15 
+	$(CCC) $(INCLUDES) -o $@ $(OBJECTS) -lm -L/home/klange/Projects/osdev-strawberry/toolchain/local/i686-pc-toaru/lib -lSDL -ltoaru -lpng15 -lz
 
 ../jma/s9x-jma.o: ../jma/s9x-jma.cpp
 	$(CCC) $(INCLUDES) -c $(CCFLAGS) -fexceptions $*.cpp -o $@

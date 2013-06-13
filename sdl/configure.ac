@@ -40,6 +40,7 @@ AC_DEFUN([AC_S9X_COMPILER_FLAG],
 		#],
 		#[snes9x_cv_option_$2="yes"], [snes9x_cv_option_$2="no"])
 	])
+	[snes9x_cv_option_$2="yes"]
 
 	CXXFLAGS="[$]OLD_CXXFLAGS"
 
@@ -105,7 +106,7 @@ fi
 # </domaemon>
 
 AC_S9X_COMPILER_FLAG([-fno-exceptions],	      [no_exceptions])
-AC_S9X_COMPILER_FLAG([-fno-rtti],             [no_rtti])
+#AC_S9X_COMPILER_FLAG([-fno-rtti],             [no_rtti])
 AC_S9X_COMPILER_FLAG([-pedantic],             [pedantic])
 AC_S9X_COMPILER_FLAG([-Wall],                 [Wall])
 AC_S9X_COMPILER_FLAG([-W],                    [W])
@@ -240,8 +241,8 @@ AC_CACHE_VAL([snes9x_cv_sdl],
 ])
 
 if test "xyes" = "xyes"; then
-  	S9XFLGS="$S9XFLGS `pkg-config --cflags sdl`"
-	S9XLIBS="$S9XLIBS `pkg-config --libs sdl`"
+  	S9XFLGS="$S9XFLGS -DNOSOUND `pkg-config --cflags sdl`"
+	S9XLIBS="$S9XLIBS `pkg-config --libs sdl` -ltoaru -lpng15 -lz"
 else
 	AC_MSG_ERROR([SDL is required.])
 fi
@@ -352,13 +353,13 @@ AC_S9X_CHECK_SAR([int16])
 AC_S9X_CHECK_SAR([int32])
 AC_S9X_CHECK_SAR([int64])
 
-if test "x$snes9x_sar_int8" = "xyes" -a "x$snes9x_sar_int16" = "xyes" -a "x$snes9x_sar_int32" = "xyes" -a "x$snes9x_sar_int64" = "xyes"; then
-	S9XDEFS="`echo \"$S9XDEFS\" | sed -e 's/-DRIGHTSHIFT_int8_IS_SAR//'`"
-	S9XDEFS="`echo \"$S9XDEFS\" | sed -e 's/-DRIGHTSHIFT_int16_IS_SAR//'`"
-	S9XDEFS="`echo \"$S9XDEFS\" | sed -e 's/-DRIGHTSHIFT_int32_IS_SAR//'`"
-	S9XDEFS="`echo \"$S9XDEFS\" | sed -e 's/-DRIGHTSHIFT_int64_IS_SAR//'`"
-	S9XDEFS="$S9XDEFS -DRIGHTSHIFT_IS_SAR"
-fi
+#if test "x$snes9x_sar_int8" = "xyes" -a "x$snes9x_sar_int16" = "xyes" -a "x$snes9x_sar_int32" = "xyes" -a "x$snes9x_sar_int64" = "xyes"; then
+#	S9XDEFS="`echo \"$S9XDEFS\" | sed -e 's/-DRIGHTSHIFT_int8_IS_SAR//'`"
+#	S9XDEFS="`echo \"$S9XDEFS\" | sed -e 's/-DRIGHTSHIFT_int16_IS_SAR//'`"
+#	S9XDEFS="`echo \"$S9XDEFS\" | sed -e 's/-DRIGHTSHIFT_int32_IS_SAR//'`"
+#	S9XDEFS="`echo \"$S9XDEFS\" | sed -e 's/-DRIGHTSHIFT_int64_IS_SAR//'`"
+#	S9XDEFS="$S9XDEFS -DRIGHTSHIFT_IS_SAR"
+#fi
 
 # Output.
 
