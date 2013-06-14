@@ -242,7 +242,7 @@ AC_CACHE_VAL([snes9x_cv_sdl],
 
 if test "xyes" = "xyes"; then
   	S9XFLGS="$S9XFLGS -DNOSOUND `pkg-config --cflags sdl`"
-	S9XLIBS="$S9XLIBS `pkg-config --libs sdl` -ltoaru -lpng15 -lz -lfreetype"
+	S9XLIBS="$S9XLIBS `pkg-config --libs sdl`"
 else
 	AC_MSG_ERROR([SDL is required.])
 fi
